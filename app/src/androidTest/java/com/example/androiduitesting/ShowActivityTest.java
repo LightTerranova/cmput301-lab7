@@ -11,6 +11,7 @@ import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -24,14 +25,18 @@ import org.junit.runner.RunWith;
 public class ShowActivityTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> scenario =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<MainActivity> scenario = new ActivityScenarioRule<>(MainActivity.class);
 
     /**
      * check if the activity switched to showActivity
      */
     @Test
     public void testActivitySwitch() {
+        // Add a city to the list
+        onView(withId(R.id.button_add)).perform(click());
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Jakarta"));
+        onView(withId(R.id.button_confirm)).perform(click());
+
         // Click the first city in the list
         onData(anything()).inAdapterView(withId(R.id.city_list)).atPosition(0).perform(click());
 
@@ -44,14 +49,16 @@ public class ShowActivityTest {
      */
     @Test
     public void testCityName() {
-        // The first city is edmonton
-        String expectedCity = "Edmonton";
+        // Add a city to the list
+        onView(withId(R.id.button_add)).perform(click());
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Jakarta"));
+        onView(withId(R.id.button_confirm)).perform(click());
+
+        // The city is edmonton
+        String expectedCity = "Jakarta";
 
         // click on the city
-        onData(is(instanceOf(String.class)))
-                .inAdapterView(withId(R.id.city_list))
-                .atPosition(0)
-                .perform(click());
+        onData(is(instanceOf(String.class))).inAdapterView(withId(R.id.city_list)).atPosition(0).perform(click());
 
         // check that both city names match
         onView(withId(R.id.content_view)).check(matches(withText(expectedCity)));
@@ -62,6 +69,11 @@ public class ShowActivityTest {
      */
     @Test
     public void testBackButton() {
+        // Add first city to the list
+        onView(withId(R.id.button_add)).perform(click());
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Jakarta"));
+        onView(withId(R.id.button_confirm)).perform(click());
+
         // go to show activity and back
         onData(anything()).inAdapterView(withId(R.id.city_list)).atPosition(0).perform(click());
         onView(withId(R.id.button_back)).perform(click());

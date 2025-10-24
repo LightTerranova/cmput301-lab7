@@ -23,40 +23,39 @@ import org.junit.runner.RunWith;
 @LargeTest
 public class MainActivityTest {
     @Rule
-    public ActivityScenarioRule<MainActivity> scenario = new
-            ActivityScenarioRule<MainActivity>(MainActivity.class);
+    public ActivityScenarioRule<MainActivity> scenario = new ActivityScenarioRule<MainActivity>(MainActivity.class);
     @Test
     public void testAddCity(){
-// Click on Add City button
+        // Click on Add City button
         onView(withId(R.id.button_add)).perform(click());
         // Type "Edmonton" in the editText
         onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Edmonton"));
-// Click on Confirm
-                onView(withId(R.id.button_confirm)).perform(click());
-// Check if text "Edmonton" is matched with any of the text displayed on the screen
+        // Click on Confirm
+        onView(withId(R.id.button_confirm)).perform(click());
+        // Check if text "Edmonton" is matched with any of the text displayed on the screen
         onView(withText("Edmonton")).check(matches(isDisplayed()));
     }
     @Test
     public void testClearCity(){
-// Add first city to the list
+        // Add first city to the list
         onView(withId(R.id.button_add)).perform(click());
         onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Edmonton"));
-                onView(withId(R.id.button_confirm)).perform(click());
-//Add another city to the list
+        onView(withId(R.id.button_confirm)).perform(click());
+        //Add another city to the list
         onView(withId(R.id.button_add)).perform(click());
         onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Vancouver"));
-                onView(withId(R.id.button_confirm)).perform(click());
-//Clear the list
+        onView(withId(R.id.button_confirm)).perform(click());
+        //Clear the list
         onView(withId(R.id.button_clear)).perform(click());
         onView(withText("Edmonton")).check(doesNotExist());
         onView(withText("Vancouver")).check(doesNotExist());
     }
     @Test
     public void testListView(){
-// Add a city
+    // Add a city
         onView(withId(R.id.button_add)).perform(click());
         onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Edmonton"));
-                onView(withId(R.id.button_confirm)).perform(click());
+        onView(withId(R.id.button_confirm)).perform(click());
 // Check if in the Adapter view (given id of that adapter view), there is a data
 // (which is an instance of String) located at position zero.
 // If this data matches the text we provided then Voila! Our test should pass
