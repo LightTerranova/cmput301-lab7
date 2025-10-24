@@ -1,5 +1,15 @@
 package com.example.androiduitesting;
 
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -16,3 +26,47 @@ public class ShowActivityTest {
     @Rule
     public ActivityScenarioRule<MainActivity> scenario =
             new ActivityScenarioRule<>(MainActivity.class);
+
+    /**
+     * check if the activity switched to showActivity
+     */
+    @Test
+    public void testActivitySwitch() {
+        // Click the first city in the list
+        onData(anything()).inAdapterView(withId(R.id.city_list)).atPosition(0).perform(click());
+
+        // Check that textview is displayed
+        onView(withId(R.id.content_view)).check(matches(isDisplayed()));
+    }
+
+    /**
+     * check if city names displayed are consistent with backend
+     */
+    @Test
+    public void testCityName() {
+        // The first city is edmonton
+        String expectedCity = "Edmonton";
+
+        // click on the city
+        onData(is(instanceOf(String.class)))
+                .inAdapterView(withId(R.id.city_list))
+                .atPosition(0)
+                .perform(click());
+
+        // check that both city names match
+        onView(withId(R.id.content_view)).check(matches(withText(expectedCity)));
+    }
+
+    /**
+     * check the back button
+     */
+    @Test
+    public void testBackButton() {
+        // go to show activity and back
+        onData(anything()).inAdapterView(withId(R.id.city_list)).atPosition(0).perform(click());
+        onView(withId(R.id.button_back)).perform(click());
+
+        // check add city to see if we got back to main
+        onView(withId(R.id.button_add)).check(matches(isDisplayed()));
+    }
+}
