@@ -34,7 +34,7 @@ public class ShowActivityTest {
     public void testActivitySwitch() {
         // Add a city to the list
         onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Jakarta"));
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("First Test"));
         onView(withId(R.id.button_confirm)).perform(click());
 
         // Click the first city in the list
@@ -51,11 +51,11 @@ public class ShowActivityTest {
     public void testCityName() {
         // Add a city to the list
         onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Jakarta"));
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Second Test"));
         onView(withId(R.id.button_confirm)).perform(click());
 
-        // The city is edmonton
-        String expectedCity = "Jakarta";
+        // The city is edmonton -> changed to Second Test so I could see the tests being run
+        String expectedCity = "Second Test";
 
         // click on the city
         onData(is(instanceOf(String.class))).inAdapterView(withId(R.id.city_list)).atPosition(0).perform(click());
@@ -71,7 +71,7 @@ public class ShowActivityTest {
     public void testBackButton() {
         // Add first city to the list
         onView(withId(R.id.button_add)).perform(click());
-        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Jakarta"));
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Third Test"));
         onView(withId(R.id.button_confirm)).perform(click());
 
         // go to show activity and back

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         newName  = findViewById(R.id.editText_name);
         cityList = findViewById(R.id.city_list);
 
-        String []cities = {"Edmonton", "Vancouver", "Moscow"};
+        String []cities = {};
         dataList = new ArrayList<>(Arrays.asList(cities));
 
         cityAdapter = new ArrayAdapter<>(this, R.layout.content, dataList);
